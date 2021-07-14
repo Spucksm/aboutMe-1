@@ -7,7 +7,6 @@ Quick introduction about myself. Simple website that prompts the user to see how
 ### Author: Kason Braley
 
 ### Links and Resources
-* [submission PR](http://xyz.com)
 
 ### Reflections and Comments
 * Was not very comfortable with this assignment. In particular the code I wrote. Not being able to use functions or other logic made the file itself unpleasent to read.
