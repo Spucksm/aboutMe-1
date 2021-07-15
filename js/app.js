@@ -1,89 +1,132 @@
 "use strict";
 
+const acceptableAnswers = ["yes", "y", "no", "n"];
+
+const high = "To high!";
+const low = "To low!";
+
+let totalCorrectAnswers = 0;
+
+const visitedCountries = [
+  "canada",
+  "mexico",
+  "scotland",
+  "singapore",
+  "thailand",
+  "united arab emirates",
+  "bahrain",
+];
+
+// setup questions and the correct answer each question
+const questionsAndAnswers = [
+  ["Is Kason's favorite sport hockey?", "yes"],
+  ["Was Kason born in the USA?", "no"],
+  ["Is Kason creative?", "no"],
+  ["Does Kason love cats?", "no"],
+  ["Does Kason have 10 dogs?", "no"],
+  [
+    "Guess a number between 1 and 50. You have four total tries.",
+    Math.floor(Math.random() * 50) + 1,
+  ], // uses a random number between 1 and 50 as the correct answer
+  [
+    "Name a country besides USA has Kason visited. You have six total tries.",
+    visitedCountries,
+  ],
+];
+
 let userName = prompt("FBI! What is your name?!");
+while (!userName) {
+  userName = prompt("Please enter a valid name.");
+}
 alert("Just kidding! It's nice to have you here " + userName + ".");
 
-const bio = document.getElementById("bio");
-const goals = document.getElementById("goals");
-const education = document.getElementById("education");
-const work = document.getElementById("work");
+for (let i = 0; i < questionsAndAnswers.length; i++) {
+  switch (i) {
+    // random number question
+    case questionsAndAnswers.length - 2: // triggers on the second to last question in the array, which is currently the number question
+      // 4 chances to guess the number
+      let answeredCorrectly = false;
+      const randomNumber = questionsAndAnswers[i][1];
 
-const resp1 = prompt("Is Kason's favorite sport hockey?");
-const lowerResp1 = resp1.toLowerCase();
+      for (let n = 0; n < 4; n++) {
+        let resp = prompt(questionsAndAnswers[i][0]);
 
-if (lowerResp1 === "yes" || lowerResp1 === "y") {
-  const answer = "Correct!";
-  // console.log(answer);
-  alert(answer);
-} else if (lowerResp1 === "no" || lowerResp1 === "n") {
-  const answer = "Incorrect";
-  // console.log(answer);
-  alert(answer);
-} else {
-  // console.log(answer);
-  alert("Invalid answer");
+        if (resp == randomNumber) {
+          totalCorrectAnswers++;
+          console.log(`Correct. The number was ${randomNumber}`);
+          alert("Correct");
+
+          // got the answer correct so break out of for loop
+          answeredCorrectly = true;
+          break;
+        } else if (resp > randomNumber) {
+          console.log(high, randomNumber);
+          alert(high);
+        } else {
+          console.log(low, randomNumber);
+          alert(low);
+        }
+      }
+      // didn't get the answer correct within 4 tries
+      if (!answeredCorrectly) {
+        const wrong = `Out of tries, the correct number was ${randomNumber}`;
+        console.log(wrong);
+        alert(wrong);
+      }
+      break;
+    // countries visited question
+    case questionsAndAnswers.length - 1: // last question of the questionsAndAnswers array
+      // 6 chances to guess the answer
+      let correct = false;
+      // const availableAnswers = questionsAndAnswers[i][1];
+      const possibleAnswersAlert = `Correct. Possible answers were: ${visitedCountries}`;
+      for (let x = 0; x < 6; x++) {
+        let resp = prompt(questionsAndAnswers[i][0]);
+        let lowerResp = resp.toLowerCase();
+        if (questionsAndAnswers[i][1].includes(lowerResp)) {
+          totalCorrectAnswers++;
+          console.log(possibleAnswersAlert);
+          alert(possibleAnswersAlert);
+
+          // got the answer correct so break out of for loop
+          correct = true;
+          break;
+        } else {
+          console.log("Incorrect");
+          alert("Incorrect");
+        }
+      }
+      // didn't get the answer correct within 6 tries
+      if (!correct) {
+        const wrong = `Out of tries, possible answers were: ${visitedCountries}`;
+        console.log(wrong);
+        alert(wrong);
+      }
+      break;
+
+    default:
+      // will trigger on all other questions in the questionsAndAnswers array
+      let resp = prompt(questionsAndAnswers[i][0]);
+      let lowerResp = resp.toLowerCase();
+      if (!acceptableAnswers.includes(lowerResp)) {
+        const invalidAnswer =
+          "Invalid answer. Acceptable answers are 'yes', 'y', 'no', 'n'.";
+        console.log(invalidAnswer);
+        alert(invalidAnswer);
+      } else if (questionsAndAnswers[i][1].includes(lowerResp)) {
+        totalCorrectAnswers++;
+        console.log("Correct");
+        alert("Correct");
+      } else {
+        console.log("Incorrect");
+        alert("Incorrect");
+      }
+  }
 }
 
-const resp2 = prompt("Was Kason born in the USA?");
-const lowerResp2 = resp2.toLowerCase();
-
-if (lowerResp2 === "yes" || lowerResp2 === "y") {
-  const answer = "Incorrect!";
-  // console.log(answer);
-  alert(answer);
-} else if (lowerResp2 === "no" || lowerResp2 === "n") {
-  const answer = "Correct! Kason was born in Scotland.";
-  // console.log(answer);
-  alert(answer);
-} else {
-  // console.log(answer);
-  alert("Invalid answer");
-}
-
-const resp3 = prompt("Is Kason creative?");
-const lowerResp3 = resp3.toLowerCase();
-
-if (lowerResp3 === "yes" || lowerResp3 === "y") {
-  const answer = "Incorrect";
-  // console.log(answer);
-  alert(answer);
-} else if (lowerResp3 === "no" || lowerResp3 === "n") {
-  const answer = "Correct!";
-  // console.log(answer);
-  alert(answer);
-} else {
-  // console.log(answer);
-  alert("Invalid answer");
-}
-
-const resp4 = prompt("Does Kason love cats?");
-const lowerResp4 = resp4.toLowerCase();
-
-if (lowerResp4 === "yes" || lowerResp4 === "y") {
-  const answer = "Incorrect. Dogs rule!";
-  // console.log(answer);
-  alert(answer);
-} else if (lowerResp4 === "no" || lowerResp4 === "n") {
-  const answer = "Correct! I love dogs!";
-  // console.log(answer);
-  alert(answer);
-} else {
-  // console.log(answer);
-  alert("Invalid answer");
-}
-
-const resp5 = prompt("Does Kason have 10 dogs?");
-const lowerResp5 = resp5.toLowerCase();
-
-if (lowerResp5 === "yes" || lowerResp5 === "y") {
-  const answer = "Incorrect " + userName + ", that's a work in progress.";
-  // console.log(answer);
-  alert(answer);
-} else if (lowerResp5 === "no" || lowerResp5 === "n") {
-  const answer = "Correct " + userName + ", I currently have two dogs.";
-  // console.log(answer);
-  alert(answer);
-} else {
-  // console.log(answer);
-  alert("Invalid answer");
-}
+console.log(
+  `You got ${totalCorrectAnswers} out of ${questionsAndAnswers.length} questions correct`
+);
+alert(
+  `You got ${totalCorrectAnswers} out of ${questionsAndAnswers.length} questions correct`
+);
